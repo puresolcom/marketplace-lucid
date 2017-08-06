@@ -89,7 +89,7 @@ class Request extends \Illuminate\Http\Request
         $sorts = array_filter(explode(',', $this->get('sort')));
 
         foreach ($sorts as $sort) {
-            $requestSortCollection->attach(new RequestFilter($sort));
+            $requestSortCollection->attach(new RequestSort($sort));
         }
 
         return $requestSortCollection;

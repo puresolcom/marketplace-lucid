@@ -237,7 +237,7 @@ trait EloquentRequestQueryable
                     $query->orderBy($sort->getField()->getName(), $sort->getDirection());
                 });
             } else {
-                $this->orderBy($sort->getField()->getName(), $sort->getDirection());
+                $builder->orderBy($sort->getField()->getName(), $sort->getDirection());
             }
         }
 
