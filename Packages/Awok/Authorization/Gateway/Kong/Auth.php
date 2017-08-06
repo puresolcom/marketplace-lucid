@@ -26,7 +26,7 @@ class Auth implements AuthContract
             && $request->headers->has('x-consumer-id')
             && $request->headers->has('x-authenticated-userid')
         ) {
-            return User::find($request->headers->has('x-authenticated-userid'));
+            return User::find($request->headers->get('x-authenticated-userid'));
         }
 
         return null;

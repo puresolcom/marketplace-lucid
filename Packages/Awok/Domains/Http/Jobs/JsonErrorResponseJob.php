@@ -1,5 +1,5 @@
 <?php
-namespace Awok\Foundation\Http\Jobs;
+namespace Awok\Domains\Http\Jobs;
 
 use Awok\Foundation\Job;
 use Laravel\Lumen\Http\ResponseFactory;

@@ -5,7 +5,7 @@ namespace App\Features;
 use App\Data\Models\Role;
 use Awok\Domains\Data\Jobs\FindEloquentObjectFromRequestJob;
 use Awok\Foundation\Feature;
-use Awok\Foundation\Http\Jobs\JsonResponseJob;
+use Awok\Domains\Http\Jobs\JsonResponseJob;
 
 class GetRoleFeature extends Feature
 {

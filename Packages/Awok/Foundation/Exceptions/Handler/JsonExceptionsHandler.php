@@ -2,7 +2,7 @@
 
 namespace Awok\Foundation\Exceptions\Handler;
 
-use Awok\Foundation\Http\Jobs\JsonErrorResponseJob;
+use Awok\Domains\Http\Jobs\JsonErrorResponseJob;
 use Awok\Foundation\Traits\JobDispatcherTrait;
 use Awok\Foundation\Traits\MarshalTrait;
 use Exception;
@@ -23,7 +23,7 @@ class JsonExceptionsHandler extends Handler
         return $this->run(JsonErrorResponseJob::class, [
             'message' => $e->getMessage(),
             'code'    => get_class($e),
-            'status'  => 400,
+            'status'  => ($e->getCode() > 0) ? $e->getCode() : 400,
         ]);
     }
 }

@@ -260,13 +260,14 @@ trait EloquentRequestQueryable
 
             $builder->with([
                 $relationName => function ($query) use ($relation, $relationName) {
+                    $referencedTableName = $query->getRelated()->getTable();
                     if ($relation->hasSubFields()) {
-                        $subFields = array_map(function ($subField) use ($relationName) {
-                            return $relationName.'.'.$subField->getName();
+                        $subFields = array_map(function ($subField) use ($relationName, $referencedTableName) {
+                            return $referencedTableName.'.'.$subField->getName();
                         }, iterator_to_array($relation->getSubFields()));
                         $select    = array_merge($subFields);
                     } else {
-                        $select = [$relationName.'.*'];
+                        $select = [$referencedTableName.'.*'];
                     }
 
                     $query->select($select);

@@ -13,7 +13,7 @@
 
 $app->group(['prefix' => 'users'], function ($app) {
     $app->post('/', 'UsersController@create');
-    $app->group(['middleware' => 'auth'], function ($app) {
+    $app->group(['middleware' => ['auth', 'role:administrator']], function ($app) {
         $app->get('/', 'UsersController@index');
         $app->get('/{id}', 'UsersController@get');
         $app->get('/{id}/roles', 'UsersController@getUserRoles');
@@ -23,7 +23,7 @@ $app->group(['prefix' => 'users'], function ($app) {
 });
 
 $app->group(['prefix' => 'roles'], function ($app) {
-    $app->group(['middleware' => 'auth'], function ($app) {
+    $app->group(['middleware' => ['auth', 'role:administrator']], function ($app) {
         $app->get('/', 'RolesController@index');
         $app->get('/{id}', 'RolesController@get');
         $app->post('/', 'RolesController@create');

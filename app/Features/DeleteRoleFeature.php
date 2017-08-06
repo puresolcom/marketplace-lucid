@@ -5,8 +5,8 @@ namespace App\Features;
 use App\Domains\Role\Jobs\DeleteRoleJob;
 use App\Domains\Role\Jobs\FindRoleByIDJob;
 use Awok\Foundation\Feature;
-use Awok\Foundation\Http\Jobs\JsonErrorResponseJob;
-use Awok\Foundation\Http\Jobs\JsonResponseJob;
+use Awok\Domains\Http\Jobs\JsonErrorResponseJob;
+use Awok\Domains\Http\Jobs\JsonResponseJob;
 
 class DeleteRoleFeature extends Feature
 {

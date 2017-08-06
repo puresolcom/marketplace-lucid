@@ -2,15 +2,16 @@
 
 namespace App\Features;
 
+use App\Data\Models\User;
 use App\Domains\User\Events\UserUpdatedEvent;
 use App\Domains\User\Jobs\CryptUserPasswordJob;
-use App\Domains\User\Jobs\FindUserByIDJob;
 use App\Domains\User\Jobs\UpdateUserInputFilterJob;
 use App\Domains\User\Jobs\UpdateUserInputValidateJob;
 use App\Domains\User\Jobs\UpdateUserJob;
+use Awok\Domains\Data\Jobs\FindObjectByIDJob;
+use Awok\Domains\Http\Jobs\JsonErrorResponseJob;
+use Awok\Domains\Http\Jobs\JsonResponseJob;
 use Awok\Foundation\Feature;
-use Awok\Foundation\Http\Jobs\JsonErrorResponseJob;
-use Awok\Foundation\Http\Jobs\JsonResponseJob;
 use Awok\Foundation\Http\Request;
 
 /**
@@ -31,8 +32,17 @@ class UpdateUserFeature extends Feature
 
     public function handle(Request $request)
     {
+        //$this->run(new CapabilityCheckJob(function ($auth) {
+        //
+        //    if ($auth->hasRole('seller')) {
+        //        return $auth->getUser()->id == $this->userID;
+        //    }
+        //
+        //    return true;
+        //}));
+
         // Find user
-        $user = $this->run(FindUserByIDJob::class, ['userID' => $this->userID]);
+        $user = $this->run(FindObjectByIDJob::class, ['model' => User::class, 'objectID' => $this->userID]);
         // Validate request input
         $this->run(UpdateUserInputValidateJob::class, ['input' => $request->all()]);
         // Exclude unwanted Inputs

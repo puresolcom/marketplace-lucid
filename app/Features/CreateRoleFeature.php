@@ -6,8 +6,8 @@ use App\Domains\Role\Jobs\CreateRoleInputFilterJob;
 use App\Domains\Role\Jobs\CreateRoleInputValidateJob;
 use App\Domains\Role\Jobs\CreateRoleJob;
 use Awok\Foundation\Feature;
-use Awok\Foundation\Http\Jobs\JsonErrorResponseJob;
-use Awok\Foundation\Http\Jobs\JsonResponseJob;
+use Awok\Domains\Http\Jobs\JsonErrorResponseJob;
+use Awok\Domains\Http\Jobs\JsonResponseJob;
 use Awok\Foundation\Http\Request;
 
 /**

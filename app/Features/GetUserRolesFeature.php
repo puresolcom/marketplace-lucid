@@ -6,7 +6,7 @@ use App\Data\Models\User;
 use Awok\Domains\Data\Jobs\BuildEloquentQueryFromRequestJob;
 use Awok\Domains\Data\Jobs\FindObjectByIDJob;
 use Awok\Foundation\Feature;
-use Awok\Foundation\Http\Jobs\JsonResponseJob;
+use Awok\Domains\Http\Jobs\JsonResponseJob;
 
 class GetUserRolesFeature extends Feature
 {

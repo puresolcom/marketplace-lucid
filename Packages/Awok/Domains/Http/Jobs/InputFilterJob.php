@@ -1,8 +1,9 @@
 <?php
 
-namespace Awok\Foundation;
+namespace Awok\Domains\Http\Jobs;
 
 use Awok\Foundation\Http\Request;
+use Awok\Foundation\Job;
 
 class InputFilterJob extends Job
 {

@@ -2,7 +2,7 @@
 
 namespace App\Domains\User\Jobs;
 
-use Awok\Foundation\InputFilterJob;
+use Awok\Domains\Http\Jobs\InputFilterJob;
 
 class CreateUserInputFilterJob extends InputFilterJob
 {

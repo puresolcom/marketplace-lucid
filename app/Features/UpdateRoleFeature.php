@@ -2,13 +2,14 @@
 
 namespace App\Features;
 
-use App\Domains\Role\Jobs\FindRoleByIDJob;
+use App\Data\Models\Role;
 use App\Domains\Role\Jobs\UpdateRoleInputFilterJob;
 use App\Domains\Role\Jobs\UpdateRoleInputValidateJob;
 use App\Domains\Role\Jobs\UpdateRoleJob;
+use Awok\Domains\Data\Jobs\FindObjectByIDJob;
+use Awok\Domains\Http\Jobs\JsonErrorResponseJob;
+use Awok\Domains\Http\Jobs\JsonResponseJob;
 use Awok\Foundation\Feature;
-use Awok\Foundation\Http\Jobs\JsonErrorResponseJob;
-use Awok\Foundation\Http\Jobs\JsonResponseJob;
 use Awok\Foundation\Http\Request;
 
 /**
@@ -30,7 +31,7 @@ class UpdateRoleFeature extends Feature
     public function handle(Request $request)
     {
         // Find role
-        $role = $this->run(FindRoleByIDJob::class, ['roleID' => $this->roleID]);
+        $role = $this->run(FindObjectByIDJob::class, ['model' => Role::class, 'objectID' => $this->roleID]);
         // Validate request input
         $this->run(UpdateRoleInputValidateJob::class, ['input' => $request->all()]);
         // Exclude unwanted Inputs

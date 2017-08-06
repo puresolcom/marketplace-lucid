@@ -2,7 +2,7 @@
 
 namespace App\Domains\Role\Jobs;
 
-use Awok\Foundation\InputFilterJob;
+use Awok\Domains\Http\Jobs\InputFilterJob;
 
 class CreateRoleInputFilterJob extends InputFilterJob
 {

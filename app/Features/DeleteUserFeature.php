@@ -5,8 +5,8 @@ namespace App\Features;
 use App\Domains\User\Jobs\DeleteUserJob;
 use App\Domains\User\Jobs\FindUserByIDJob;
 use Awok\Foundation\Feature;
-use Awok\Foundation\Http\Jobs\JsonErrorResponseJob;
-use Awok\Foundation\Http\Jobs\JsonResponseJob;
+use Awok\Domains\Http\Jobs\JsonErrorResponseJob;
+use Awok\Domains\Http\Jobs\JsonResponseJob;
 
 class DeleteUserFeature extends Feature
 {

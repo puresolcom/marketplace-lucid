@@ -18,6 +18,9 @@ class AuthorizationServiceProvider extends ServiceProvider
 
     public function register()
     {
+        $this->app->singleton('authorization', function ($app) {
+            return new Authorization($app);
+        });
         $this->app->singleton('awok.authorization.kong.auth', function ($app) {
             return new Auth($app);
         });
