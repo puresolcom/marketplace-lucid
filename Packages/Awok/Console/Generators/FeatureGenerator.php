@@ -7,6 +7,8 @@ use Illuminate\Support\Str;
 
 class FeatureGenerator extends Generator
 {
+    protected $stubName = 'feature.plain.stub';
+
     public function generate($name)
     {
         $name = Str::studly($name).'Feature';
@@ -17,12 +19,15 @@ class FeatureGenerator extends Generator
 
         $namespace       = $this->findFeatureNamespace();
         $vendorNamespace = $this->findVendorRootNameSpace();
-        $content         = file_get_contents($this->getStub());
-        $content         = str_replace(
+        $this->setGeneratedClassName($name);
+        $this->setGeneratedClassFQN($namespace.'\\'.$name);
+        $content = file_get_contents($this->getStub());
+        $content = str_replace(
             ['{{feature}}', '{{namespace}}', '{{vendor_namespace}}'],
             [$name, $namespace, $vendorNamespace],
             $content
         );
+        $content = $this->applyStubVars($content);
         $this->createFile($path, $content);
 
         return $this->relativeFromReal($path);
@@ -30,6 +35,6 @@ class FeatureGenerator extends Generator
 
     protected function getStub()
     {
-        return __DIR__.'/stubs/feature.stub';
+        return __DIR__.'/stubs/'.$this->getStubName();
     }
 }

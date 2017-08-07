@@ -6,6 +6,8 @@ use Exception;
 
 class ControllerGenerator extends Generator
 {
+    protected $stubName = 'controller.plain.stub';
+
     public function generate($name)
     {
         $name = $this->controllerName($name);
@@ -22,6 +24,7 @@ class ControllerGenerator extends Generator
             [$name, $namespace, $vendorNamespace],
             $content
         );
+        $content         = $this->applyStubVars($content);
         $this->createFile($path, $content);
 
         return $this->relativeFromReal($path);
@@ -29,6 +32,6 @@ class ControllerGenerator extends Generator
 
     protected function getStub()
     {
-        return __DIR__.'/stubs/controller.stub';
+        return __DIR__.'/stubs/'.$this->getStubName();
     }
 }

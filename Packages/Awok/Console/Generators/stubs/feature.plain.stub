@@ -4,12 +4,11 @@ namespace {{namespace}};
 
 use {{vendor_namespace}}\Foundation\Feature;
 use {{vendor_namespace}}\Foundation\Http\Request;
-{{namespace_below}}
 
 class {{feature}} extends Feature
 {
     public function handle(Request $request)
     {
-        {{handler_body}}
+
     }
 }

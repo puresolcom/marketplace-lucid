@@ -5,24 +5,24 @@ namespace Awok\Console\Generators;
 use Exception;
 use Illuminate\Support\Str;
 
-class JobGenerator extends Generator
+class ValidatorGenerator extends Generator
 {
-    protected $stubName = 'job.plain.stub';
+    protected $stubName = 'validator.plain.stub';
 
     public function generate($name, $domain)
     {
-        $name   = Str::studly($name).'Job';
+        $name   = Str::studly($name).'Validator';
         $domain = Str::studly($domain);
-        $path   = $this->findJobPath($name, $domain);
+        $path   = $this->findValidatorPath($name, $domain);
         if ($this->exists($path)) {
-            throw new Exception('Job already exists!');
+            throw new Exception('Validator already exists!');
         }
 
-        $namespace       = $this->findJobNamespace($domain);
+        $namespace       = $this->findValidatorNamespace($domain);
         $vendorNamespace = $this->findVendorRootNameSpace();
         $content         = file_get_contents($this->getStub());
         $content         = str_replace(
-            ['{{job}}', '{{namespace}}', '{{vendor_namespace}}'],
+            ['{{validator}}', '{{namespace}}', '{{vendor_namespace}}'],
             [$name, $namespace, $vendorNamespace],
             $content
         );

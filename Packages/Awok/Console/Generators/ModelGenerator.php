@@ -7,6 +7,8 @@ use Illuminate\Support\Str;
 
 class ModelGenerator extends Generator
 {
+    protected $stubName = 'model.plain.stub';
+
     public function generate($name)
     {
         $name = Str::studly($name);
@@ -17,12 +19,15 @@ class ModelGenerator extends Generator
 
         $namespace       = $this->findModelNamespace();
         $vendorNamespace = $this->findVendorRootNameSpace();
-        $content         = file_get_contents($this->getStub());
-        $content         = str_replace(
+        $this->setGeneratedClassName($name);
+        $this->setGeneratedClassFQN($namespace.'\\'.$name);
+        $content = file_get_contents($this->getStub());
+        $content = str_replace(
             ['{{model}}', '{{namespace}}', '{{vendor_namespace}}'],
             [$name, $namespace, $vendorNamespace],
             $content
         );
+        $content = $this->applyStubVars($content);
         $this->createFile($path, $content);
 
         return $this->relativeFromReal($path);
@@ -30,6 +35,6 @@ class ModelGenerator extends Generator
 
     protected function getStub()
     {
-        return __DIR__.'/stubs/model.stub';
+        return __DIR__.'/stubs/'.$this->getStubName();
     }
 }

@@ -9,6 +9,30 @@ class Generator
 {
     protected $srcDirectoryName = 'app';
 
+    protected $stubName;
+
+    protected $stubVars = [];
+
+    protected $generatedClassName;
+
+    protected $generatedClassFQN;
+
+    /**
+     * @return mixed
+     */
+    public function getGeneratedClassName()
+    {
+        return $this->generatedClassName;
+    }
+
+    /**
+     * @param mixed $generatedClassName
+     */
+    protected function setGeneratedClassName($generatedClassName)
+    {
+        $this->generatedClassName = $generatedClassName;
+    }
+
     public function findControllerPath($controller)
     {
         return base_path('app').'/Http/Controllers/'.$controller.'.php';
@@ -29,6 +53,11 @@ class Generator
         return base_path('app').'/Domains/'.$domain.'/Jobs/'.$job.'.php';
     }
 
+    public function findValidatorPath($validator, $domain)
+    {
+        return base_path('app').'/Domains/'.$domain.'/Validators/'.$validator.'.php';
+    }
+
     public function findVendorRootNameSpace()
     {
         return 'Awok';
@@ -37,21 +66,6 @@ class Generator
     public function findControllerNamespace()
     {
         return $this->findRootNamespace().'\\Http\\Controllers';
-    }
-
-    public function findModelNamespace()
-    {
-        return $this->findRootNamespace().'\\Data\\Models';
-    }
-
-    public function findFeatureNamespace()
-    {
-        return $this->findRootNamespace().'\\Features';
-    }
-
-    public function findJobNamespace($domain)
-    {
-        return $this->findRootNamespace().'\\Domains\\'.$domain.'\\Jobs';
     }
 
     public function findRootNamespace()
@@ -74,6 +88,26 @@ class Generator
         }
 
         return 'app';
+    }
+
+    public function findModelNamespace()
+    {
+        return $this->findRootNamespace().'\\Data\\Models';
+    }
+
+    public function findFeatureNamespace()
+    {
+        return $this->findRootNamespace().'\\Features';
+    }
+
+    public function findJobNamespace($domain)
+    {
+        return $this->findRootNamespace().'\\Domains\\'.$domain.'\\Jobs';
+    }
+
+    public function findValidatorNamespace($domain)
+    {
+        return $this->findRootNamespace().'\\Domains\\'.$domain.'\\Validators';
     }
 
     public function exists($path)
@@ -109,6 +143,40 @@ class Generator
         return studly_case(preg_replace('/Controller(\.php)?$/', '', $name).'Controller');
     }
 
+    public function getStubName()
+    {
+        return $this->stubName;
+    }
+
+    public function setStubName($stubName)
+    {
+        $this->stubName = $stubName;
+    }
+
+    public function setStubVar($key, $value)
+    {
+        $this->stubVars[$key] = $value;
+    }
+
+    public function getStubVarValue($key)
+    {
+        if (! isset($this->stubVars[$key])) {
+            return false;
+        }
+
+        return $this->stubVars[$key];
+    }
+
+    public function getGeneratedClassFQN()
+    {
+        return $this->generatedClassFQN;
+    }
+
+    protected function setGeneratedClassFQN($FQN)
+    {
+        $this->generatedClassFQN = $FQN;
+    }
+
     protected function relativeFromReal($path, $needle = '')
     {
         if (! $needle) {
@@ -116,5 +184,25 @@ class Generator
         }
 
         return strstr($path, $needle);
+    }
+
+    /**
+     * @param $content
+     *
+     * @return mixed
+     */
+    protected function applyStubVars($content)
+    {
+        $stubVars = $this->getStubVars();
+        foreach ($stubVars as $k => $v) {
+            $content = str_replace('{{'.$k.'}}', trim($v), $content);
+        }
+
+        return $content;
+    }
+
+    public function getStubVars()
+    {
+        return $this->stubVars;
     }
 }

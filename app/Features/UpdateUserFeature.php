@@ -8,6 +8,7 @@ use App\Domains\User\Jobs\CryptUserPasswordJob;
 use App\Domains\User\Jobs\UpdateUserInputFilterJob;
 use App\Domains\User\Jobs\UpdateUserInputValidateJob;
 use App\Domains\User\Jobs\UpdateUserJob;
+use Awok\Domains\Authorization\Jobs\CapabilityCheckJob;
 use Awok\Domains\Data\Jobs\FindObjectByIDJob;
 use Awok\Domains\Http\Jobs\JsonErrorResponseJob;
 use Awok\Domains\Http\Jobs\JsonResponseJob;
