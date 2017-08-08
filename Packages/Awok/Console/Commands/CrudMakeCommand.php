@@ -28,6 +28,8 @@ class CrudMakeCommand extends Command
      */
     protected $description = 'Creates a CRUD for an entity';
 
+    protected $guardedDirectoryNames = ['Features', 'Models', 'Controllers', 'Domains', 'Events'];
+
     /**
      * Execute the console command.
      *
@@ -41,7 +43,6 @@ class CrudMakeCommand extends Command
         $controllerGenerator = new ControllerGenerator();
         $modelGenerator      = new ModelGenerator();
         $featureGenerator    = new FeatureGenerator();
-        $jobGenerator        = new JobGenerator();
 
         $generatedFilesPaths = [];
 
@@ -228,6 +229,9 @@ class CrudMakeCommand extends Command
             $controllerGenerator->setStubVar('get_feature_class', $featureGenerator->getGeneratedClassName());
 
             // Create Feature
+            $featureGenerator->setStubVar('class_members', '');
+            $featureGenerator->setStubVar('constructor_arguments', '');
+            $featureGenerator->setStubVar('constructor_body', '');
             $featureGenerator->setStubVar('namespace_below',
                 "use {$createInputValidateJobFQN};\n".
                 "use {$createInputFilterJobFQN};\n".
@@ -401,17 +405,9 @@ class CrudMakeCommand extends Command
             }
 
             $directory = $fileSystem->dirname($path);
-            if (empty($fileSystem->files($directory))) {
+            if (empty($fileSystem->files($directory)) && ! in_array($fileSystem->basename($directory), $this->guardedDirectoryNames)) {
                 if ($fileSystem->deleteDirectory($directory)) {
                     $this->warn('Dir: '.$directory.' deleted'."\n");
-
-                    $parentDirectory = $fileSystem->dirname($directory);
-
-                    if (empty($fileSystem->allFiles($parentDirectory))) {
-                        if ($fileSystem->deleteDirectory($parentDirectory)) {
-                            $this->warn('Dir: '.$parentDirectory.' deleted'."\n");
-                        }
-                    }
                 }
             }
         }
