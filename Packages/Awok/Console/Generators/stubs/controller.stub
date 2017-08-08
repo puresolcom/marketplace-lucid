@@ -19,7 +19,7 @@ class {{controller}} extends Controller
 
     public function get($id)
     {
-        return $this->serve({{get_feature_class}}::class, ['userID' => $id]);
+        return $this->serve({{get_feature_class}}::class, ['objectID' => $id]);
     }
 
     public function create()
@@ -29,11 +29,11 @@ class {{controller}} extends Controller
 
     public function update($id)
     {
-        return $this->serve({{update_feature_class}}::class, ['userID' => $id]);
+        return $this->serve({{update_feature_class}}::class, ['objectID' => $id]);
     }
 
     public function delete($id)
     {
-        return $this->serve({{delete_feature_class}}::class, ['userID' => $id]);
+        return $this->serve({{delete_feature_class}}::class, ['objectID' => $id]);
     }
 }

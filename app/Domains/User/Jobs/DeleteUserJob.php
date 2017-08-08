@@ -7,15 +7,15 @@ use Awok\Foundation\Job;
 
 class DeleteUserJob extends Job
 {
-    protected $user;
+    protected $model;
 
-    public function __construct(User $user)
+    public function __construct(User $model)
     {
-        $this->user = $user;
+        $this->model = $model;
     }
 
     public function handle()
     {
-        return $this->user->delete();
+        return $this->model->delete();
     }
 }

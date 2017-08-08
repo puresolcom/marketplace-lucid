@@ -18,6 +18,10 @@ class InputFilterJob extends Job
 
     public function handle(Request $request)
     {
+        if (empty($this->expectedKeys)) {
+            return $request->all();
+        }
+
         return $request->expect($this->expectedKeys);
     }
 }

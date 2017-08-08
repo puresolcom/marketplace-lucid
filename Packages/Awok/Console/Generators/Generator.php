@@ -198,7 +198,7 @@ class Generator
             $content = str_replace('{{'.$k.'}}', trim($v), $content);
         }
 
-        return $content;
+        return preg_replace('/\{\{.+\}\}/', '', $content);
     }
 
     public function getStubVars()

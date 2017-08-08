@@ -20,13 +20,15 @@ class JobGenerator extends Generator
 
         $namespace       = $this->findJobNamespace($domain);
         $vendorNamespace = $this->findVendorRootNameSpace();
-        $content         = file_get_contents($this->getStub());
-        $content         = str_replace(
+        $this->setGeneratedClassName($name);
+        $this->setGeneratedClassFQN($namespace.'\\'.$name);
+        $content = file_get_contents($this->getStub());
+        $content = str_replace(
             ['{{job}}', '{{namespace}}', '{{vendor_namespace}}'],
             [$name, $namespace, $vendorNamespace],
             $content
         );
-        $content         = $this->applyStubVars($content);
+        $content = $this->applyStubVars($content);
         $this->createFile($path, $content);
 
         return $this->relativeFromReal($path);

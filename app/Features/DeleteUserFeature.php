@@ -2,27 +2,28 @@
 
 namespace App\Features;
 
+use App\Data\Models\User;
 use App\Domains\User\Jobs\DeleteUserJob;
-use App\Domains\User\Jobs\FindUserByIDJob;
-use Awok\Foundation\Feature;
+use Awok\Domains\Data\Jobs\FindObjectByIDJob;
 use Awok\Domains\Http\Jobs\JsonErrorResponseJob;
 use Awok\Domains\Http\Jobs\JsonResponseJob;
+use Awok\Foundation\Feature;
 
 class DeleteUserFeature extends Feature
 {
-    protected $userID;
+    protected $objectID;
 
-    public function __construct($userID)
+    public function __construct(int $objectID)
     {
-        $this->userID = $userID;
+        $this->objectID = $objectID;
     }
 
     public function handle()
     {
-        $user        = $this->run(FindUserByIDJob::class, ['userID' => $this->userID]);
-        $userDeleted = $this->run(DeleteUserJob::class, ['user' => $user]);
+        $model   = $this->run(FindObjectByIDJob::class, ['model' => User::class, 'objectID' => $this->objectID]);
+        $deleted = $this->run(DeleteUserJob::class, ['model' => $model]);
 
-        if (! $userDeleted) {
+        if (! $deleted) {
             return $this->run(new JsonErrorResponseJob('Unable to delete user'));
         }
 

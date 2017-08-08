@@ -8,6 +8,13 @@ use {{vendor_namespace}}\Foundation\Http\Request;
 
 class {{feature}} extends Feature
 {
+	{{class_members}}
+
+	public function __construct( {{constructor_arguments}} )
+	{
+		{{constructor_body}}
+	}
+
     public function handle(Request $request)
     {
         {{handler_body}}

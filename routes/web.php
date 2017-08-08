@@ -31,3 +31,14 @@ $app->group(['prefix' => 'roles'], function ($app) {
         $app->delete('/{id}', 'RolesController@delete');
     });
 });
+
+
+$app->group(['prefix' => 'products'], function ($app) {
+    $app->group(['middleware' => ['auth', 'role:administrator']], function ($app) {
+        $app->get('/', 'ProductsController@index');
+        $app->get('/{id}', 'ProductsController@get');
+        $app->post('/', 'ProductsController@create');
+        $app->put('/{id}', 'ProductsController@update');
+        $app->delete('/{id}', 'ProductsController@delete');
+    });
+});
