@@ -395,9 +395,24 @@ class CrudMakeCommand extends Command
 
         foreach ($paths as $path) {
             if (! $fileSystem->delete($path)) {
-                $this->error('Unable to delete file'.' '.$path);
+                $this->error('Unable to delete file'.' '.$path."\n");
             } else {
-                $this->warn($path.' deleted');
+                $this->warn('File: '.$path.' deleted'."\n");
+            }
+
+            $directory = $fileSystem->dirname($path);
+            if (empty($fileSystem->files($directory))) {
+                if ($fileSystem->deleteDirectory($directory)) {
+                    $this->warn('Dir: '.$directory.' deleted'."\n");
+
+                    $parentDirectory = $fileSystem->dirname($directory);
+
+                    if (empty($fileSystem->allFiles($parentDirectory))) {
+                        if ($fileSystem->deleteDirectory($parentDirectory)) {
+                            $this->warn('Dir: '.$parentDirectory.' deleted'."\n");
+                        }
+                    }
+                }
             }
         }
 
