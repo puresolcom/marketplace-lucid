@@ -23,7 +23,7 @@ class KongAuthenticateJob extends Job
 
         $httpClient = new Client();
 
-        $response = $httpClient->request('POST', config('app.gateway_url').'/oauth2/token', [
+        $response = $httpClient->request('POST', config('gateway.gateway_url').'/oauth2/token', [
             'verify'      => false,
             'curl'        => [
                 CURLOPT_SSLVERSION     => 1,

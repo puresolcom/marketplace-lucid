@@ -1663,7 +1663,7 @@
             "source": {
                 "type": "git",
                 "url": "git@gitlab.alifca.com:mander/awok-lucid.git",
-                "reference": "f218c4c6770295dcc22078183286b31d4e2397f0"
+                "reference": "a56628be65d70120f11dd7c5787508157e107507"
             },
             "type": "library",
             "autoload": {
@@ -1678,7 +1678,7 @@
                 }
             ],
             "description": "Awok.com Lucid Base Repository",
-            "time": "2017-08-08 13:07:34"
+            "time": "2017-08-09 08:42:45"
         },
         {
             "name": "monolog/monolog",

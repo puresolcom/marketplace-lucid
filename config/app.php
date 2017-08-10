@@ -12,8 +12,6 @@ return [
     | will not be safe. Please do this before deploying an application!
     |
     */
-    'gateway_url' => env('APP_GATEWAY_URL', 'https://192.168.1.231:8443/local/market'),
-
     'key' => env('APP_KEY', 'Grl7u20cTQjPIPDMoi4ckoS4jTpGXqlM'),
 
     'cipher'          => 'AES-256-CBC',
