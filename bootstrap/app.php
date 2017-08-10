@@ -78,6 +78,7 @@ $app->register(\Awok\Foundation\Providers\AppServiceProvider::class);
 $app->register(\Awok\Authorization\AuthorizationServiceProvider::class);
 $app->register(\Awok\Foundation\Http\HttpServiceProvider::class);
 $app->register(App\Providers\EventServiceProvider::class);
+$app->register(\App\Domains\Option\OptionServiceProvider::class);
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes

@@ -13,7 +13,10 @@
     "laravel/lumen-framework": "5.4.*",
     "vlucas/phpdotenv": "~2.2",
     "league/fractal": "^0.16.0",
-    "mander/awok-lucid": "master"
+    "mander/awok-lucid": "master",
+    "guzzlehttp/guzzle": "^6.2",
+    "intervention/image": "^2.3",
+    "zircote/swagger-php": "^2.0"
   },
   "repositories": [
     {
