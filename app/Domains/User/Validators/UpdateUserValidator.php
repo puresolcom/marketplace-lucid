@@ -7,7 +7,9 @@ use Awok\Validation\Validator;
 class UpdateUserValidator extends Validator
 {
     protected $rules = [
-        /** @todo Add some rules bellow here is one example */
-        // 'email' => 'required|email|unique.users',
+        'name'          => 'string',
+        'email'         => 'email|unique:users',
+        'phone_primary' => 'numeric',
+        'password'      => 'min:6|max:32',
     ];
 }
