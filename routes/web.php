@@ -74,3 +74,16 @@ $app->group(['prefix' => 'store'], function ($app) {
         $app->delete('/{id}', 'StoresController@delete');
     });
 });
+
+/**
+ * Store
+ */
+$app->group(['prefix' => 'currency'], function ($app) {
+    $app->group(['middleware' => ['auth']], function ($app) {
+        $app->get('/{id}', 'CurrenciesController@get');
+        $app->get('/', 'CurrenciesController@index');
+        $app->post('/', 'CurrenciesController@create');
+        $app->put('/{id}', 'CurrenciesController@update');
+        $app->delete('/{id}', 'CurrenciesController@delete');
+    });
+});
