@@ -14,12 +14,12 @@ class UpdateProductOperation extends Operation
 {
     protected $input;
 
-    protected $product;
+    protected $model;
 
-    public function __construct(Product $product, array $input)
+    public function __construct(Product $model, array $input)
     {
-        $this->input   = $input;
-        $this->product = $product;
+        $this->input = $input;
+        $this->model = $model;
     }
 
     public function handle(Application $app)
@@ -29,7 +29,7 @@ class UpdateProductOperation extends Operation
 
         try {
             $updated = $this->updateProduct();
-            
+
             if (! $updated) {
                 $app->make('db')->rollback();
                 throw new Exception(trans('failed to update product'));
@@ -45,7 +45,7 @@ class UpdateProductOperation extends Operation
         // commit
         $app->make('db')->commit();
 
-        return true;
+        return $updated->load(['store', 'currency', 'approved_by']);
     }
 
     protected function updateProduct()
@@ -55,7 +55,7 @@ class UpdateProductOperation extends Operation
 
         // update product details
         $updated = $this->run(UpdateProductJob::class, [
-            'model' => $this->product,
+            'model' => $this->model,
             'input' => $updateProductFields,
         ]);
 
@@ -71,7 +71,7 @@ class UpdateProductOperation extends Operation
 
         if (! empty($productTranslations)) {
             $this->run(SaveProductTranslationJob::class, [
-                'model' => $this->product,
+                'model' => $this->model,
                 'input' => $productTranslations,
             ]);
         }

@@ -25,7 +25,7 @@ class Product extends Model
         return $this->hasMany(ProductsTranslation::class, 'translatable_id');
     }
 
-    public function currencies()
+    public function currency()
     {
         return $this->belongsTo(Currency::class, 'currency_id', 'id');
     }

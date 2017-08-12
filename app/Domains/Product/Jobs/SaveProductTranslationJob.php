@@ -9,19 +9,19 @@ class SaveProductTranslationJob extends Job
 {
     protected $data;
 
-    protected $product;
+    protected $model;
 
     public function __construct(array $input, Product $model)
     {
-        $this->data    = $input;
-        $this->product = $model;
+        $this->data  = $input;
+        $this->model = $model;
     }
 
     public function handle()
     {
         foreach ($this->data as $key => $translations) {
             foreach ($translations as $data) {
-                $this->product->translations()->updateOrCreate(['locale' => $data->getLocale()], [$key => $data->getValue()]);
+                $this->model->translations()->updateOrCreate(['locale' => $data->getLocale()], [$key => $data->getValue()]);
             }
         }
     }

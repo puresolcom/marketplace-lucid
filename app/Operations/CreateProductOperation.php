@@ -36,16 +36,17 @@ class CreateProductOperation extends Operation
             $product = $this->run(CreateProductJob::class, ['input' => $createProductFields]);
 
             // create translations
-            $this->run(SaveProductTranslationJob::class, ['input' => $productTranslations, 'product' => $product]);
+            $this->run(SaveProductTranslationJob::class, ['input' => $productTranslations, 'model' => $product]);
         } catch (\Exception $e) {
             // rollback if exceptions are caught
             $app->make('db')->rollback();
             throw $e;
         }
 
+        $results = $product->where('id', $product->id)->with(['store', 'currency', 'approved_by'])->get();
         // commit
         $app->make('db')->commit();
 
-        return true;
+        return $results;
     }
 }

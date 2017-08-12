@@ -63,6 +63,32 @@ $app->group(['prefix' => 'option'], function($app) {
 });
 
 /**
+ * Store
+ */
+$app->group(['prefix' => 'store'], function($app) {
+    $app->group(['middleware' => ['auth']], function($app) {
+        $app->get('/{id}', 'StoresController@get');
+        $app->get('/', 'StoresController@index');
+        $app->post('/', 'StoresController@create');
+        $app->put('/{id}', 'StoresController@update');
+        $app->delete('/{id}', 'StoresController@delete');
+    });
+});
+
+/**
+ * Store
+ */
+$app->group(['prefix' => 'currency'], function($app) {
+    $app->group(['middleware' => ['auth']], function($app) {
+        $app->get('/{id}', 'CurrenciesController@get');
+        $app->get('/', 'CurrenciesController@index');
+        $app->post('/', 'CurrenciesController@create');
+        $app->put('/{id}', 'CurrenciesController@update');
+        $app->delete('/{id}', 'CurrenciesController@delete');
+    });
+});
+
+/**
  * Product
  */
 $app->group(['prefix' => 'product'], function($app) {

@@ -39,7 +39,7 @@ class UpdateProductFeature extends Feature
         $this->run(UpdateProductInputValidateOperation::class, ['input' => $request->all()]);
 
         // update products
-        $updated = $this->run(UpdateProductOperation::class, ['input' => $request->all(), 'product' => $product]);
+        $updated = $this->run(UpdateProductOperation::class, ['input' => $request->all(), 'model' => $product]);
 
         // Response
         if (! $updated) {

@@ -13,11 +13,14 @@ class UpdateProductValidator extends Validator
     protected $currentObjectID;
 
     protected $rules = [
+        'stock'          => 'numeric',
         'price'          => 'numeric',
         'discount_price' => 'numeric',
-        'stock'          => 'numeric',
         'currency_id'    => 'exists:currencies,id',
         'store_id'       => 'exists:stores,id',
+        'active'         => 'numeric',
+        'approved'       => 'numeric',
+        'approved_by'    => 'numeric',
     ];
 
     public function __construct(Validation $validation, Request $request)

@@ -6,7 +6,6 @@ use App\Operations\CreateProductInputValidateOperation;
 use App\Operations\CreateProductOperation;
 use Awok\Foundation\Feature;
 use Awok\Foundation\Http\Request;
-use App\Domains\Product\Jobs\CreateProductInputFilterJob;
 use Awok\Domains\Http\Jobs\JsonResponseJob;
 use Awok\Domains\Http\Jobs\JsonErrorResponseJob;
 
