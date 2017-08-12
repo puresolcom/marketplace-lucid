@@ -10,11 +10,11 @@ use App\Data\Models\User;
 
 class ListUserFeature extends Feature
 {
-	
+
 
 	public function __construct(  )
 	{
-		
+
 	}
 
     public function handle(Request $request)

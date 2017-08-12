@@ -10,13 +10,13 @@
 | and give it the Closure to call when that URI is requested.
 |
 */
-$app->get('/docs', function () {
+$app->get('/docs', function() {
     $swagger = \Swagger\scan(base_path('app'));
 
     return new \Illuminate\Http\JsonResponse($swagger);
 });
 
-$app->get('/', function () {
+$app->get('/', function() {
     return 'You\'re here cuz you\'re someone awesome!';
 });
 $app->get('/example', 'ExampleController@index');
@@ -24,10 +24,10 @@ $app->get('/example', 'ExampleController@index');
 /**
  * User
  */
-$app->group(['prefix' => 'user'], function ($app) {
+$app->group(['prefix' => 'user'], function($app) {
     $app->post('/login', 'UsersController@login');
     $app->post('/', 'UsersController@create');
-    $app->group(['middleware' => ['auth']], function ($app) {
+    $app->group(['middleware' => ['auth']], function($app) {
         $app->get('/{id}/roles', 'UsersController@getRoles');
         $app->get('/{id}', 'UsersController@get');
         $app->get('/', 'UsersController@index');
@@ -39,8 +39,8 @@ $app->group(['prefix' => 'user'], function ($app) {
 /**
  * Role
  */
-$app->group(['prefix' => 'role'], function ($app) {
-    $app->group(['middleware' => ['auth']], function ($app) {
+$app->group(['prefix' => 'role'], function($app) {
+    $app->group(['middleware' => ['auth']], function($app) {
         $app->get('/{id}', 'RolesController@get');
         $app->get('/', 'RolesController@index');
         $app->post('/', 'RolesController@create');
@@ -52,12 +52,25 @@ $app->group(['prefix' => 'role'], function ($app) {
 /**
  * Option
  */
-$app->group(['prefix' => 'option'], function ($app) {
-    $app->group(['middleware' => ['auth']], function ($app) {
+$app->group(['prefix' => 'option'], function($app) {
+    $app->group(['middleware' => ['auth']], function($app) {
         $app->get('/{id}', 'OptionsController@get');
         $app->get('/', 'OptionsController@index');
         $app->post('/', 'OptionsController@create');
         $app->put('/{id}', 'OptionsController@update');
         $app->delete('/{id}', 'OptionsController@delete');
+    });
+});
+
+/**
+ * Product
+ */
+$app->group(['prefix' => 'product'], function($app) {
+    $app->group(['middleware' => ['auth']], function($app) {
+        $app->get('/{id}', 'ProductsController@get');
+        $app->get('/', 'ProductsController@index');
+        $app->post('/', 'ProductsController@create');
+        $app->put('/{id}', 'ProductsController@update');
+        $app->delete('/{id}', 'ProductsController@delete');
     });
 });

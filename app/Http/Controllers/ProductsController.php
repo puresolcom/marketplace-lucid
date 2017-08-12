@@ -9,7 +9,6 @@ use App\Features\CreateProductFeature;
 use App\Features\UpdateProductFeature;
 use App\Features\DeleteProductFeature;
 
-
 class ProductsController extends Controller
 {
     public function index()

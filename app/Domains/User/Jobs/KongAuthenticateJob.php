@@ -15,13 +15,11 @@ class KongAuthenticateJob extends Job
         $this->user = $user;
     }
 
-    public function handle(Application $app)
+    public function handle(Application $app, Client $httpClient)
     {
         $clientID          = $app->make('option')->get('auth', 'oauth_client_id');
         $clientSecret      = $app->make('option')->get('auth', 'oauth_client_secret');
         $oauthProvisionKey = $app->make('option')->get('auth', 'oauth_provision_key');
-
-        $httpClient = new Client();
 
         $response = $httpClient->request('POST', config('gateway.gateway_url').'/oauth2/token', [
             'verify'      => false,
