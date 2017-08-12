@@ -61,3 +61,16 @@ $app->group(['prefix' => 'option'], function ($app) {
         $app->delete('/{id}', 'OptionsController@delete');
     });
 });
+
+/**
+ * Store
+ */
+$app->group(['prefix' => 'store'], function ($app) {
+    $app->group(['middleware' => ['auth']], function ($app) {
+        $app->get('/{id}', 'StoresController@get');
+        $app->get('/', 'StoresController@index');
+        $app->post('/', 'StoresController@create');
+        $app->put('/{id}', 'StoresController@update');
+        $app->delete('/{id}', 'StoresController@delete');
+    });
+});

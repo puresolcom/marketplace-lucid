@@ -2,37 +2,26 @@
 
 namespace App\Features;
 
-use Awok\Foundation\Feature;
-use Awok\Foundation\Http\Request;
-use App\Domains\Store\Jobs\CreateStoreInputValidateJob;
-use App\Domains\Store\Jobs\CreateStoreInputFilterJob;
-use App\Domains\Store\Jobs\CreateStoreJob;
-use Awok\Domains\Http\Jobs\JsonResponseJob;
+use App\Operations\CreateStoreOperation;
 use Awok\Domains\Http\Jobs\JsonErrorResponseJob;
+use Awok\Domains\Http\Jobs\JsonResponseJob;
+use Awok\Foundation\Feature;
 
 class CreateStoreFeature extends Feature
 {
-	
-
-	public function __construct(  )
-	{
-		
-	}
-
-    public function handle(Request $request)
+    public function __construct()
     {
-        // Validate Request Inputs
-		$this->run(CreateStoreInputValidateJob::class, ['input' => $request->all()]);
+    }
 
-		// Exclude unwanted Inputs
-		$filteredInputs = $this->run(CreateStoreInputFilterJob::class);
+    public function handle()
+    {
+        $created = $this->run(CreateStoreOperation::class);
 
-		// Create model
-		$created = $this->run(CreateStoreJob::class, ['input' => $filteredInputs]);
+        // Response
+        if (! $created) {
+            return $this->run(new JsonErrorResponseJob(trans('Unable to create Store')));
+        }
 
-		// Response
-		if (! $created) { return $this->run(new JsonErrorResponseJob('Unable to create Store')); }
-
-		return $this->run(new JsonResponseJob($created));
+        return $this->run(new JsonResponseJob($created));
     }
 }
