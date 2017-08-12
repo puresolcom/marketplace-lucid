@@ -3,6 +3,7 @@
 namespace App\Operations;
 
 use App\Data\Models\Store;
+use App\Domains\Store\Jobs\SlugifyStoreNameJob;
 use App\Domains\Store\Jobs\UpdateStoreInputFilterJob;
 use App\Domains\Store\Jobs\UpdateStoreInputValidateJob;
 use App\Domains\Store\Jobs\UpdateStoreJob;
@@ -29,6 +30,10 @@ class UpdateStoreOperation extends Operation
 
         // Exclude unwanted Inputs
         $filteredInputs = $this->run(UpdateStoreInputFilterJob::class);
+
+        if (isset($filteredInputs['slug'])) {
+            $filteredInputs['slug'] = $this->run(SlugifyStoreNameJob::class, ['slug' => $filteredInputs['slug']]);
+        }
 
         // Update model
         $updated = $this->run(UpdateStoreJob::class, ['model' => $this->model, 'input' => $filteredInputs]);

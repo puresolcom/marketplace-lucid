@@ -9,7 +9,7 @@ use App\Domains\User\Jobs\CryptPasswordJob;
 use App\Domains\User\Jobs\UpdateUserInputFilterJob;
 use App\Domains\User\Jobs\UpdateUserInputValidateJob;
 use App\Domains\User\Jobs\UpdateUserJob;
-use Awok\Domains\Http\Jobs\JsonErrorResponseJob;
+use Awok\Foundation\Exceptions\Exception;
 use Awok\Foundation\Operation;
 use Laravel\Lumen\Application;
 
@@ -35,7 +35,7 @@ class UpdateUserOperation extends Operation
         if (! $userUpdated) {
             $this->app->make('db')->rollBack();
 
-            return $this->run(new JsonErrorResponseJob(trans('Unable to update user model')));
+            throw new Exception(trans('Unable to update user model'));
         }
 
         $userRolesAssigned = $this->assignUserRoles($userUpdated);
@@ -43,7 +43,7 @@ class UpdateUserOperation extends Operation
         if (! $userRolesAssigned) {
             $this->app->make('db')->rollBack();
 
-            return $this->run(new JsonErrorResponseJob(trans('Unable to assign user roles')));
+            throw new Exception(trans('Unable to assign user roles'));
         }
 
         $this->app->make('db')->commit();
