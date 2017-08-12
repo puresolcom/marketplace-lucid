@@ -10,5 +10,5 @@ class Location extends Model
 
     protected $hidden = [];
 
-    public $timestamps = false;
+    public $timestamps = true;
 }
