@@ -5,7 +5,7 @@ namespace App\Data\Models;
 use Awok\Foundation\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Currency extends Model
+class Country extends Model
 {
     use SoftDeletes;
 

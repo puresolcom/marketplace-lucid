@@ -24,6 +24,7 @@ class CreateStoresTable extends Migration
             $table->unsignedSmallInteger('country_id');
             $table->string('postal_code', 16);
             $table->timestamps();
+            $table->softDeletes();
 
             // Foreign Keys
             $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
