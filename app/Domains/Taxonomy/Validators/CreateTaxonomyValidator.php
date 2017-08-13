@@ -13,8 +13,8 @@ class CreateTaxonomyValidator extends Validator
         $this->rules = [
             'type'      => ['required', Rule::in(['category', 'tag'])],
             'parent_id' => 'numeric',
-            'name'      => 'required',
-            'slug'      => 'min:1',
+            'name'      => 'required|translatable_object:3,64',
+            'slug'      => 'slug:taxonomies',
         ];
         parent::__construct($validation);
     }

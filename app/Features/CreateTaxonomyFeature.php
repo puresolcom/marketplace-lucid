@@ -2,37 +2,28 @@
 
 namespace App\Features;
 
+use App\Operations\CreateTaxonomyOperation;
+use Awok\Domains\Http\Jobs\JsonErrorResponseJob;
+use Awok\Domains\Http\Jobs\JsonResponseJob;
 use Awok\Foundation\Feature;
 use Awok\Foundation\Http\Request;
-use App\Domains\Taxonomy\Jobs\CreateTaxonomyInputValidateJob;
-use App\Domains\Taxonomy\Jobs\CreateTaxonomyInputFilterJob;
-use App\Domains\Taxonomy\Jobs\CreateTaxonomyJob;
-use Awok\Domains\Http\Jobs\JsonResponseJob;
-use Awok\Domains\Http\Jobs\JsonErrorResponseJob;
 
 class CreateTaxonomyFeature extends Feature
 {
-	
-
-	public function __construct(  )
-	{
-		
-	}
-
-    public function handle(Request $request)
+    public function __construct()
     {
-        // Validate Request Inputs
-		$this->run(CreateTaxonomyInputValidateJob::class, ['input' => $request->all()]);
+    }
 
-		// Exclude unwanted Inputs
-		$filteredInputs = $this->run(CreateTaxonomyInputFilterJob::class);
+    public function handle()
+    {
 
-		// Create model
-		$created = $this->run(CreateTaxonomyJob::class, ['input' => $filteredInputs]);
+        $created = $this->run(CreateTaxonomyOperation::class);
 
-		// Response
-		if (! $created) { return $this->run(new JsonErrorResponseJob('Unable to create Taxonomy')); }
+        // Response
+        if (! $created) {
+            return $this->run(new JsonErrorResponseJob('Unable to create Taxonomy'));
+        }
 
-		return $this->run(new JsonResponseJob($created));
+        return $this->run(new JsonResponseJob($created));
     }
 }

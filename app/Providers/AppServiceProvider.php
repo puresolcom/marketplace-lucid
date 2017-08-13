@@ -15,14 +15,20 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         // create image
-        $this->app->singleton('intervention', function() {
+        $this->app->singleton('intervention', function () {
             return new ImageManager();
         });
     }
 
     public function boot()
     {
-        $this->app->make('validator')->extend('slug', function($attribute, $value, $parameters, $validator) {
+        $this->app->make('validator')->extend('slug', function ($attribute, $value, $parameters, $validator) {
+
+            if (! preg_match('/^[a-z0-9-_]+$/', $value)) {
+                $validator->setCustomMessages(["({$value}) is not a valid ({$attribute})"]);
+
+                return false;
+            }
 
             $exists = $this->app->make('db')->table($parameters[0])->where($attribute, str_slug($value))->count();
 
@@ -35,33 +41,27 @@ class AppServiceProvider extends ServiceProvider
             return true;
         });
 
-        $this->app->make('validator')->extend('translatable_object', function(
+        $this->app->make('validator')->extend('translatable_object', function (
             $attribute,
             $value,
             $parameters,
             $validator
         ) {
-
+            $rule = [];
             if (! empty($parameters)) {
-                $min = $parameters[0];
-                $max = $parameters[1] ?? null;
+                $min     = $parameters[0];
+                $max     = $parameters[1] ?? null;
+                $rule [] = "min:{$min}";
+                if (! empty($max)) {
+                    $rule[] = "max:{$max}";
+                }
             }
 
             if (is_string($value)) {
-                $rule = '';
-                $validator->setData([$attribute => $value]);
 
-                if (! empty($min)) {
-                    $rule = "min:{$min}";
-                }
+                $validator->setData(array_merge($validator->getData(), [$attribute => $value]));
 
-                if (! empty($max)) {
-                    $rule .= "|max:{$max}";
-                }
-
-                $validator->setRules([
-                    $attribute => $rule,
-                ]);
+                $validator->setRules(array_merge($validator->getRules(), [$attribute => $rule]));
 
                 $validator->passes();
 
@@ -69,7 +69,7 @@ class AppServiceProvider extends ServiceProvider
             }
 
             foreach ($value as $key => $data) {
-                if (! is_string($key) || strlen($data) == 0) {
+                if (! is_string($key)) {
                     $validator->setCustomMessages(["The {$attribute} is not a valid object"]);
 
                     return false;
@@ -82,7 +82,7 @@ class AppServiceProvider extends ServiceProvider
                 }
 
                 if (! empty($max) && strlen($data) > $max) {
-                    $validator->setCustomMessages(["The {$attribute} value may nit be greater than {$max} characters"]);
+                    $validator->setCustomMessages(["The {$attribute} value may not be greater than {$max} characters"]);
 
                     return false;
                 }
