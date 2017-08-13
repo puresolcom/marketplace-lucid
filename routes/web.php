@@ -100,3 +100,16 @@ $app->group(['prefix' => 'country'], function ($app) {
         $app->delete('/{id}', 'CountriesController@delete');
     });
 });
+
+/**
+ * Taxonomy
+ */
+$app->group(['prefix' => 'taxonomy'], function ($app) {
+    $app->group(['middleware' => ['auth']], function ($app) {
+        $app->get('/{id}', 'TaxonomiesController@get');
+        $app->get('/', 'TaxonomiesController@index');
+        $app->post('/', 'TaxonomiesController@create');
+        $app->put('/{id}', 'TaxonomiesController@update');
+        $app->delete('/{id}', 'TaxonomiesController@delete');
+    });
+});
