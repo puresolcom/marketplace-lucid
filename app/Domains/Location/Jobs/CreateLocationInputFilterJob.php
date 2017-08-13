@@ -7,16 +7,21 @@ use Awok\Foundation\Http\Request;
 
 class CreateLocationInputFilterJob extends InputFilterJob
 {
+    protected $expectedKeys = [
+        'name',
+        'slug',
+        'type',
+        'parent_id',
+        'country_id',
+    ];
 
-	protected $expectedKeys = [/** @todo add array of expected input keys here */];
-
-    public function __construct( array $expectedKeys = [] )
+    public function __construct(array $expectedKeys = [])
     {
-    	parent::__construct($expectedKeys);
+        parent::__construct($expectedKeys);
     }
 
-    public function handle( Request $request )
+    public function handle(Request $request)
     {
-    	return parent::handle($request);
+        return parent::handle($request);
     }
 }

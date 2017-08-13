@@ -30,9 +30,17 @@ class AppServiceProvider extends ServiceProvider
                 return false;
             }
 
-            $exists = $this->app->make('db')->table($parameters[0])->where($attribute, str_slug($value))->count();
+            if (isset($parameters[1])) {
+                $currentPk = $parameters[1];
+            }
 
-            if ($exists > 0) {
+            $exists = $this->app->make('db')->table($parameters[0]);
+            if (isset($currentPk)) {
+                $exists->whereNotIn('id', [$currentPk]);
+            }
+            $exists->where($attribute, str_slug($value));
+
+            if ($exists->count() > 0) {
                 $validator->setCustomMessages(["The {$attribute} already exists"]);
 
                 return false;

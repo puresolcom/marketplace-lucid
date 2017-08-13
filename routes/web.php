@@ -126,3 +126,16 @@ $app->group(['prefix' => 'taxonomy'], function ($app) {
         $app->delete('/{id}', 'TaxonomiesController@delete');
     });
 });
+
+/**
+ * Location
+ */
+$app->group(['prefix' => 'location'], function ($app) {
+    $app->group(['middleware' => ['auth']], function ($app) {
+        $app->get('/{id}', 'LocationsController@get');
+        $app->get('/', 'LocationsController@index');
+        $app->post('/', 'LocationsController@create');
+        $app->put('/{id}', 'LocationsController@update');
+        $app->delete('/{id}', 'LocationsController@delete');
+    });
+});

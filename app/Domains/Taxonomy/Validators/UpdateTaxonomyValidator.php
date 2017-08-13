@@ -11,7 +11,7 @@ class UpdateTaxonomyValidator extends Validator
     {
         $this->rules = [
             'type'      => [Rule::in(['category', 'tag'])],
-            'parent_id' => 'numeric',
+            'parent_id' => 'numeric|exists:taxonomies,id',
             'name'      => 'translatable_object:3,64',
             'slug'      => 'slug:taxonomies',
         ];
