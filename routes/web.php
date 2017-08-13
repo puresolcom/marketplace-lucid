@@ -88,7 +88,7 @@ $app->group(['prefix' => 'currency'], function ($app) {
     });
 });
 
-/**
+/*
  * Country
  */
 $app->group(['prefix' => 'country'], function ($app) {
@@ -98,6 +98,19 @@ $app->group(['prefix' => 'country'], function ($app) {
         $app->post('/', 'CountriesController@create');
         $app->put('/{id}', 'CountriesController@update');
         $app->delete('/{id}', 'CountriesController@delete');
+    });
+});
+
+/**
+ * Product
+ */
+$app->group(['prefix' => 'product'], function ($app) {
+    $app->group(['middleware' => ['auth']], function ($app) {
+        $app->get('/{id}', 'ProductsController@get');
+        $app->get('/', 'ProductsController@index');
+        $app->post('/', 'ProductsController@create');
+        $app->put('/{id}', 'ProductsController@update');
+        $app->delete('/{id}', 'ProductsController@delete');
     });
 });
 

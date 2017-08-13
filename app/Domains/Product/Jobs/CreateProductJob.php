@@ -7,16 +7,15 @@ use Awok\Foundation\Job;
 
 class CreateProductJob extends Job
 {
+    protected $data;
 
-	protected $data;
-
-    public function __construct( array $input )
+    public function __construct(array $input)
     {
-    	$this->data = $input;
+        $this->data = $input;
     }
 
-    public function handle( Product $model )
+    public function handle(Product $model)
     {
-    	return $model->create($this->data);
+        return $model->create($this->data);
     }
 }

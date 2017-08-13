@@ -77,6 +77,7 @@ $app->routeMiddleware([
 $app->register(App\Providers\EventServiceProvider::class);
 $app->register(\App\Providers\AppServiceProvider::class);
 $app->register(\Awok\Foundation\Providers\AppServiceProvider::class);
+$app->register(\App\Providers\AppServiceProvider::class);
 $app->register(\Awok\Authorization\AuthorizationServiceProvider::class);
 $app->register(\Awok\Foundation\Http\HttpServiceProvider::class);
 $app->register(\App\Domains\Option\OptionServiceProvider::class);
@@ -92,7 +93,7 @@ $app->register(\App\Providers\CatchAllOptionsRequestsProvider::class);
 |
 */
 
-$app->group(['namespace' => 'App\Http\Controllers'], function ($app) {
+$app->group(['namespace' => 'App\Http\Controllers'], function($app) {
     require __DIR__.'/../routes/web.php';
 });
 

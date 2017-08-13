@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Domains\Product\Jobs;
+
+use App\Data\Models\Product;
+use Awok\Foundation\Job;
+
+class SaveProductTranslationJob extends Job
+{
+    protected $data;
+
+    protected $model;
+
+    public function __construct(array $input, Product $model)
+    {
+        $this->data  = $input;
+        $this->model = $model;
+    }
+
+    public function handle()
+    {
+        foreach ($this->data as $key => $translations) {
+            foreach ($translations as $data) {
+                $this->model->translations()->updateOrCreate(['locale' => $data->getLocale()], [$key => $data->getValue()]);
+            }
+        }
+    }
+}

@@ -7,18 +7,18 @@ use Awok\Foundation\Job;
 
 class UpdateProductJob extends Job
 {
+    protected $model;
 
-	protected $model;
-	protected $input;
+    protected $input;
 
-    public function __construct( Product $model, array $input )
+    public function __construct(Product $model, array $input)
     {
-    	$this->model     = $model;
-		$this->input     = $input;
+        $this->model = $model;
+        $this->input = $input;
     }
 
-    public function handle(  )
+    public function handle()
     {
-    	return $this->model->update($this->input) ? $this->model : false;
+        return $this->model->update($this->input) ? $this->model->load(['store']) : false;
     }
 }

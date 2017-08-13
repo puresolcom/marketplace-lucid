@@ -7,16 +7,28 @@ use Awok\Foundation\Http\Request;
 
 class CreateProductInputFilterJob extends InputFilterJob
 {
+    protected $expectedKeys = [
+        'title',
+        'description',
+        'upc',
+        'sku',
+        'price',
+        'discount_price',
+        'stock',
+        'currency_id',
+        'store_id',
+        'attributes',
+        'categories',
+        'tags',
+    ];
 
-	protected $expectedKeys = [/** @todo add array of expected input keys here */];
-
-    public function __construct( array $expectedKeys = [] )
+    public function __construct(array $expectedKeys = [])
     {
-    	parent::__construct($expectedKeys);
+        parent::__construct($expectedKeys);
     }
 
-    public function handle( Request $request )
+    public function handle(Request $request)
     {
-    	return parent::handle($request);
+        return parent::handle($request);
     }
 }
