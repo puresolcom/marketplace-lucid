@@ -43,7 +43,12 @@ class CreateProductOperation extends Operation
             throw $e;
         }
 
-        $results = $product->where('id', $product->id)->with(['store', 'currency', 'approved_by'])->get();
+        $results = $product->where('id', $product->id)->with([
+            'translations',
+            'store',
+            'currency',
+            'approved_by',
+        ])->get();
         // commit
         $app->make('db')->commit();
 

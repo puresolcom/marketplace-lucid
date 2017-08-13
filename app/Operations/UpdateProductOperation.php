@@ -45,7 +45,7 @@ class UpdateProductOperation extends Operation
         // commit
         $app->make('db')->commit();
 
-        return $updated->load(['store', 'currency', 'approved_by']);
+        return $updated->load(['translations', 'store', 'currency', 'approved_by']);
     }
 
     protected function updateProduct()

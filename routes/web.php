@@ -113,3 +113,16 @@ $app->group(['prefix' => 'product'], function($app) {
         $app->delete('/{id}', 'ProductsController@delete');
     });
 });
+
+/**
+ * Product
+ */
+$app->group(['prefix' => 'attribute'], function($app) {
+    $app->group(['middleware' => ['auth']], function($app) {
+        $app->get('/{id}', 'ProductsAttributesController@get');
+        $app->get('/', 'ProductsAttributesController@index');
+        $app->post('/', 'ProductsAttributesController@create');
+        $app->put('/{id}', 'ProductsAttributesController@update');
+        $app->delete('/{id}', 'ProductsAttributesController@delete');
+    });
+});

@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Domains\Product\Jobs;
+namespace App\Domains\ProductsAttribute\Jobs;
 
-use App\Data\Models\Product;
-use App\Data\Models\ProductsTranslation;
+use App\Data\Models\ProductsAttribute;
+use App\Data\Models\ProductsAttributesTranslation;
 use Awok\Foundation\Job;
 
-class SaveProductTranslationJob extends Job
+class SaveProductsAttributeTranslatableJob extends Job
 {
     protected $data;
 
     protected $model;
 
-    public function __construct(array $input, Product $model)
+    public function __construct(ProductsAttribute $model, array $input)
     {
-        $this->data  = $input;
         $this->model = $model;
+        $this->data  = $input;
     }
 
     public function handle()
@@ -23,12 +23,10 @@ class SaveProductTranslationJob extends Job
         foreach ($this->data as $key => $translations) {
             foreach ($translations as $data) {
                 if (empty($data->getValue())) {
-                    $translationModel = ProductsTranslation::where('translatable_id', '=', $this->model->id)
+                    $translationModel = ProductsAttributesTranslation::where('translatable_id', '=', $this->model->id)
                         ->where('locale', '=', $data->getLocale())->first();
 
-                    $translationModel->$key = $data->getValue();
-
-                    if (empty($translationModel->description) && empty($translationModel->title)) {
+                    if (empty($translationModel->name)) {
                         $translationModel->delete();
                     }
                 } else {

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\ServiceProvider;
 use Intervention\Image\ImageManager;
 
@@ -41,27 +42,21 @@ class AppServiceProvider extends ServiceProvider
             $parameters,
             $validator
         ) {
-
+            $rule = [];
             if (! empty($parameters)) {
-                $min = $parameters[0];
-                $max = $parameters[1] ?? null;
+                $min     = $parameters[0];
+                $max     = $parameters[1] ?? null;
+                $rule [] = "min:{$min}";
+                if (! empty($max)) {
+                    $rule[] = "max:{$max}";
+                }
             }
 
             if (is_string($value)) {
-                $rule = '';
-                $validator->setData([$attribute => $value]);
 
-                if (! empty($min)) {
-                    $rule = "min:{$min}";
-                }
+                $validator->setData(array_merge($validator->getData(), [$attribute => $value]));
 
-                if (! empty($max)) {
-                    $rule .= "|max:{$max}";
-                }
-
-                $validator->setRules([
-                    $attribute => $rule,
-                ]);
+                $validator->setRules(array_merge($validator->getRules(), [$attribute => $rule]));
 
                 $validator->passes();
 
@@ -69,7 +64,7 @@ class AppServiceProvider extends ServiceProvider
             }
 
             foreach ($value as $key => $data) {
-                if (! is_string($key) || strlen($data) == 0) {
+                if (! is_string($key)) {
                     $validator->setCustomMessages(["The {$attribute} is not a valid object"]);
 
                     return false;
@@ -82,7 +77,7 @@ class AppServiceProvider extends ServiceProvider
                 }
 
                 if (! empty($max) && strlen($data) > $max) {
-                    $validator->setCustomMessages(["The {$attribute} value may nit be greater than {$max} characters"]);
+                    $validator->setCustomMessages(["The {$attribute} value may not be greater than {$max} characters"]);
 
                     return false;
                 }
