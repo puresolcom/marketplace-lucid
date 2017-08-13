@@ -11,4 +11,14 @@ class Taxonomy extends Model
     protected $hidden = [];
 
     public $timestamps = true;
+
+    public function translations()
+    {
+        return $this->hasMany(TaxonomyTranslation::class, 'translatable_id', 'id');
+    }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'products_taxonomies', 'taxonomy_id', 'product_id')->withTimestamps();
+    }
 }

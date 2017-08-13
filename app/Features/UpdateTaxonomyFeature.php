@@ -2,41 +2,35 @@
 
 namespace App\Features;
 
+use App\Data\Models\Taxonomy;
+use App\Operations\UpdateTaxonomyOperation;
+use Awok\Domains\Data\Jobs\FindObjectByIDJob;
+use Awok\Domains\Http\Jobs\JsonErrorResponseJob;
+use Awok\Domains\Http\Jobs\JsonResponseJob;
 use Awok\Foundation\Feature;
 use Awok\Foundation\Http\Request;
-use App\Domains\Taxonomy\Jobs\UpdateTaxonomyInputValidateJob;
-use App\Domains\Taxonomy\Jobs\UpdateTaxonomyInputFilterJob;
-use App\Domains\Taxonomy\Jobs\UpdateTaxonomyJob;
-use Awok\Domains\Http\Jobs\JsonResponseJob;
-use Awok\Domains\Http\Jobs\JsonErrorResponseJob;
-use Awok\Domains\Data\Jobs\FindObjectByIDJob;
-use App\Data\Models\Taxonomy;
 
 class UpdateTaxonomyFeature extends Feature
 {
-	protected $objectID;
+    protected $objectID;
 
-	public function __construct( int $objectID )
-	{
-		$this->objectID = $objectID;
-	}
+    public function __construct(int $objectID)
+    {
+        $this->objectID = $objectID;
+    }
 
     public function handle(Request $request)
     {
-        // Validate Request Inputs
-		$this->run(UpdateTaxonomyInputValidateJob::class, ['input' => $request->all()]);
-		// Finding model
-		$model = $this->run(FindObjectByIDJob::class,  ['model' => Taxonomy::class, 'objectID' => $this->objectID]);
+        // Finding model
+        $model = $this->run(FindObjectByIDJob::class, ['model' => Taxonomy::class, 'objectID' => $this->objectID]);
 
-		// Exclude unwanted Inputs
-		$filteredInputs = $this->run(UpdateTaxonomyInputFilterJob::class);
+        $updated = $this->run(UpdateTaxonomyOperation::class, ['model' => $model]);
 
-		// Update model
-		$updated = $this->run(UpdateTaxonomyJob::class, ['model' => $model, 'input' => $filteredInputs]);
+        // Response
+        if (! $updated) {
+            return $this->run(new JsonErrorResponseJob('Unable to update Taxonomy'));
+        }
 
-		// Response
-		if (! $updated) { return $this->run(new JsonErrorResponseJob('Unable to update Taxonomy')); }
-
-		return $this->run(new JsonResponseJob($updated));
+        return $this->run(new JsonResponseJob($updated));
     }
 }

@@ -16,18 +16,32 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         // create image
-        $this->app->singleton('intervention', function() {
+        $this->app->singleton('intervention', function () {
             return new ImageManager();
         });
     }
 
     public function boot()
     {
-        $this->app->make('validator')->extend('slug', function($attribute, $value, $parameters, $validator) {
+        $this->app->make('validator')->extend('slug', function ($attribute, $value, $parameters, $validator) {
 
-            $exists = $this->app->make('db')->table($parameters[0])->where($attribute, str_slug($value))->count();
+            if (! preg_match('/^[a-z0-9-_]+$/', $value)) {
+                $validator->setCustomMessages(["({$value}) is not a valid ({$attribute})"]);
 
-            if ($exists > 0) {
+                return false;
+            }
+
+            if (isset($parameters[1])) {
+                $currentPk = $parameters[1];
+            }
+
+            $exists = $this->app->make('db')->table($parameters[0]);
+            if (isset($currentPk)) {
+                $exists->whereNotIn('id', [$currentPk]);
+            }
+            $exists->where($attribute, str_slug($value));
+
+            if ($exists->count() > 0) {
                 $validator->setCustomMessages(["The {$attribute} already exists"]);
 
                 return false;
@@ -36,7 +50,7 @@ class AppServiceProvider extends ServiceProvider
             return true;
         });
 
-        $this->app->make('validator')->extend('translatable_object', function(
+        $this->app->make('validator')->extend('translatable_object', function (
             $attribute,
             $value,
             $parameters,

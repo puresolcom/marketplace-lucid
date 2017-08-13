@@ -54,9 +54,9 @@ $app->singleton(
 |
 */
 
-// $app->middleware([
-//    App\Http\Middleware\ExampleMiddleware::class
-// ]);
+$app->middleware([
+    \App\Http\Middleware\CORSMiddleware::class,
+]);
 
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
@@ -74,12 +74,14 @@ $app->routeMiddleware([
 |
 */
 
+$app->register(App\Providers\EventServiceProvider::class);
+$app->register(\App\Providers\AppServiceProvider::class);
 $app->register(\Awok\Foundation\Providers\AppServiceProvider::class);
 $app->register(\App\Providers\AppServiceProvider::class);
 $app->register(\Awok\Authorization\AuthorizationServiceProvider::class);
 $app->register(\Awok\Foundation\Http\HttpServiceProvider::class);
-$app->register(App\Providers\EventServiceProvider::class);
 $app->register(\App\Domains\Option\OptionServiceProvider::class);
+$app->register(\App\Providers\CatchAllOptionsRequestsProvider::class);
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes

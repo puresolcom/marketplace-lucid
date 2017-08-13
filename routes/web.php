@@ -115,6 +115,32 @@ $app->group(['prefix' => 'product'], function($app) {
 });
 
 /**
+ * Taxonomy
+ */
+$app->group(['prefix' => 'taxonomy'], function($app) {
+    $app->group(['middleware' => ['auth']], function($app) {
+        $app->get('/{id}', 'TaxonomiesController@get');
+        $app->get('/', 'TaxonomiesController@index');
+        $app->post('/', 'TaxonomiesController@create');
+        $app->put('/{id}', 'TaxonomiesController@update');
+        $app->delete('/{id}', 'TaxonomiesController@delete');
+    });
+});
+
+/**
+ * Location
+ */
+$app->group(['prefix' => 'location'], function($app) {
+    $app->group(['middleware' => ['auth']], function($app) {
+        $app->get('/{id}', 'LocationsController@get');
+        $app->get('/', 'LocationsController@index');
+        $app->post('/', 'LocationsController@create');
+        $app->put('/{id}', 'LocationsController@update');
+        $app->delete('/{id}', 'LocationsController@delete');
+    });
+});
+
+/**
  * Product
  */
 $app->group(['prefix' => 'attribute'], function($app) {
