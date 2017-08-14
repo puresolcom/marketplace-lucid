@@ -11,5 +11,6 @@ class UpdateUserValidator extends Validator
         'email'         => 'email|unique:users',
         'phone_primary' => 'numeric',
         'password'      => 'min:6|max:32',
+        'active'        => 'boolean',
     ];
 }

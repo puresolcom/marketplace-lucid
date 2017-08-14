@@ -11,5 +11,6 @@ class CreateUserValidator extends Validator
         'email'         => 'required|email|unique:users',
         'phone_primary' => 'required|numeric',
         'password'      => 'required|min:6|max:32',
+        'active'        => 'boolean'
     ];
 }

@@ -13,6 +13,7 @@ class CreateUserInputFilterJob extends InputFilterJob
         'phone_primary',
         'phone_secondary',
         'password',
+        'active',
     ];
 
     public function __construct(array $expectedKeys = [])
