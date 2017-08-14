@@ -3,6 +3,7 @@
 namespace App\Operations;
 
 use App\Domains\ProductsAttribute\Jobs\CreateProductsAttributeInputValidateJob;
+use App\Domains\ProductsAttribute\Jobs\CreateProductsAttributeOptionTranslatableJob;
 use App\Domains\ProductsAttribute\Jobs\CreateProductsAttributeOptionValidateJob;
 use App\Domains\ProductsAttribute\Jobs\CreateProductsAttributeTranslatableValidateJob;
 use Awok\Foundation\Operation;
@@ -23,5 +24,7 @@ class CreateProductsAttributeInputValidateOperation extends Operation
         $this->run(CreateProductsAttributeTranslatableValidateJob::class, ['input' => $this->input]);
 
         $this->run(CreateProductsAttributeOptionValidateJob::class, ['input' => $this->input]);
+
+        //$this->run(CreateProductsAttributeOptionTranslatableJob::class, ['input' => $this->input]);
     }
 }
