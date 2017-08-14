@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 use Intervention\Image\ImageManager;
 
@@ -16,14 +17,14 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         // create image
-        $this->app->singleton('intervention', function () {
+        $this->app->singleton('intervention', function() {
             return new ImageManager();
         });
     }
 
     public function boot()
     {
-        $this->app->make('validator')->extend('slug', function ($attribute, $value, $parameters, $validator) {
+        $this->app->make('validator')->extend('slug', function($attribute, $value, $parameters, $validator) {
 
             if (! preg_match('/^[a-z0-9-_]+$/', $value)) {
                 $validator->setCustomMessages(["({$value}) is not a valid ({$attribute})"]);
@@ -50,7 +51,7 @@ class AppServiceProvider extends ServiceProvider
             return true;
         });
 
-        $this->app->make('validator')->extend('translatable_object', function (
+        $this->app->make('validator')->extend('translatable_object', function(
             $attribute,
             $value,
             $parameters,
@@ -95,6 +96,29 @@ class AppServiceProvider extends ServiceProvider
 
                     return false;
                 }
+            }
+
+            return true;
+        });
+
+        $this->app->make('validator')->extend('validate_base_locale', function(
+            $attribute,
+            $value,
+            $parameters,
+            $validator
+        ) {
+            if (! is_array($value)) {
+                return true;
+            }
+
+            $baseLocale = config('app.base_locale');
+
+            $keys = array_keys($value);
+
+            if (! in_array($baseLocale, $keys)) {
+                $validator->setCustomMessages(["The {$attribute} must have a translation for {$baseLocale} language"]);
+
+                return false;
             }
 
             return true;

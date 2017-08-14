@@ -21,7 +21,6 @@ class CreateProductsAttributeOperation extends Operation
 
     public function handle(Application $app)
     {
-
         $app->make('db')->beginTransaction();
 
         $productAttribute             = $this->run(ExtractCreateProductsAttributeFieldsJob::class, ['input' => $this->input]);

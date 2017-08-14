@@ -12,7 +12,7 @@ class CreateProductsAttributeValidator extends Validator
     {
         $this->rules = [
             'type'          => ['required', Rule::in(['string', 'text', 'select', 'checkbox'])],
-            'slug'          => 'slug:products_attributes',
+            'slug'          => 'required|slug:products_attributes',
             'multiple'      => 'boolean|required_if:type,select|required_if:type,checkbox',
             'configuration' => 'json',
             'required'      => 'boolean',
