@@ -2,15 +2,14 @@
 
 namespace App\Features;
 
+use App\Data\Models\Product;
 use App\Operations\UpdateProductInputValidateOperation;
 use App\Operations\UpdateProductOperation;
-use Awok\Domains\Authorization\Jobs\CapabilityCheckJob;
+use Awok\Domains\Data\Jobs\FindObjectByIDJob;
+use Awok\Domains\Http\Jobs\JsonErrorResponseJob;
+use Awok\Domains\Http\Jobs\JsonResponseJob;
 use Awok\Foundation\Feature;
 use Awok\Foundation\Http\Request;
-use Awok\Domains\Http\Jobs\JsonResponseJob;
-use Awok\Domains\Http\Jobs\JsonErrorResponseJob;
-use Awok\Domains\Data\Jobs\FindObjectByIDJob;
-use App\Data\Models\Product;
 
 class UpdateProductFeature extends Feature
 {
@@ -27,13 +26,13 @@ class UpdateProductFeature extends Feature
         $product = $this->run(FindObjectByIDJob::class, ['model' => Product::class, 'objectID' => $this->objectID]);
 
         // capability check
-        $this->run(new CapabilityCheckJob(function($auth) use ($product) {
-            if ($auth->hasRole('seller')) {
-                return $auth->getUser()->id == $product->store->user_id;
-            }
-
-            return true;
-        }));
+        //$this->run(new CapabilityCheckJob(function($auth) use ($product) {
+        //    if ($auth->hasRole('seller')) {
+        //        return $auth->getUser()->id == $product->store->user_id;
+        //    }
+        //
+        //    return true;
+        //}));
 
         // Validate Request Inputs
         $this->run(UpdateProductInputValidateOperation::class, ['input' => $request->all()]);

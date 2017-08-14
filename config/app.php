@@ -26,7 +26,7 @@ return [
     | to any of the locales which will be supported by the application.
     |
     */
-    'locale'          => env('APP_LOCALE', 'en'),
+    'locale'          => env('APP_LOCALE', 'fr'),
     'base_locale'     => env('BASE_LOCALE', 'en'),
     /*
     |--------------------------------------------------------------------------

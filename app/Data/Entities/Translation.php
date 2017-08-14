@@ -10,7 +10,7 @@ class Translation
 
     public function __construct($value, $locale = null)
     {
-        $this->setLocale($locale ?? config('app.locale'));
+        $this->setLocale($locale ?? config('app.base_locale'));
         $this->setValue($value);
     }
 
