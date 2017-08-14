@@ -20,15 +20,15 @@ class SaveProductsAttributeTranslatableJob extends Job
 
     public function handle()
     {
+        $baseLocale = config('app.base_locale');
         foreach ($this->data as $key => $translations) {
             foreach ($translations as $data) {
                 if (empty($data->getValue())) {
-                    $translationModel = ProductsAttributesTranslation::where('translatable_id', '=', $this->model->id)
-                        ->where('locale', '=', $data->getLocale())->first();
-
-                    if (empty($translationModel->name)) {
-                        $translationModel->delete();
+                    if ($data->getLocale() == $baseLocale) {
+                        continue;
                     }
+                    ProductsAttributesTranslation::where('translatable_id', '=', $this->model->id)
+                        ->where('locale', '=', $data->getLocale())->delete();
                 } else {
                     $this->model->translations()->updateOrCreate(['locale' => $data->getLocale()], [$key => $data->getValue()]);
                 }

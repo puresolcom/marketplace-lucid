@@ -7,7 +7,7 @@ use Awok\Validation\Validator;
 class CreateProductTranslatableValidator extends Validator
 {
     protected $rules = [
-        'title'       => 'required',
-        'description' => 'required',
+        'title'       => 'required|validate_base_locale',
+        'description' => 'required|validate_base_locale',
     ];
 }

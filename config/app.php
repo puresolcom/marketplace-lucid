@@ -27,6 +27,7 @@ return [
     |
     */
     'locale'          => env('APP_LOCALE', 'en'),
+    'base_locale'     => env('BASE_LOCALE', 'en'),
     /*
     |--------------------------------------------------------------------------
     | Application Fallback Locale
