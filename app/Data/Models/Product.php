@@ -15,6 +15,18 @@ class Product extends Model
 
     public $timestamps = true;
 
+    public $appends = ['title', 'description'];
+
+    public function getTitleAttribute()
+    {
+        return $this->translations()->where('locale', config('app.base_locale'))->first()->title;
+    }
+
+    public function getDescriptionAttribute()
+    {
+        return $this->translations()->where('locale', config('app.base_locale'))->first()->description;
+    }
+
     public function store()
     {
         return $this->belongsTo(Store::class);
@@ -34,5 +46,4 @@ class Product extends Model
     {
         return $this->belongsTo(User::class, 'approved_by', 'id');
     }
-
 }
