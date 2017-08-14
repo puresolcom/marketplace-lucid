@@ -27,8 +27,8 @@ class Product extends Model
 
     public function getDescriptionAttribute()
     {
-        $baseLocale = $this->descriptionTranslations()->where('locale', config('app.base_locale'))->first();
-        $userLocale = $this->descriptionTranslations()->where('locale', config('app.locale'))->first();
+        $baseLocale = $this->descriptionTranslations()->where('locale', config('app.base_locale'))->where('key', 'description')->first();
+        $userLocale = $this->descriptionTranslations()->where('locale', config('app.locale'))->where('key', 'description')->first();
 
         return ! empty($userLocale) ? $userLocale->value : ! empty($baseLocale) ? $baseLocale->value : '';
     }
@@ -61,5 +61,20 @@ class Product extends Model
     public function approved_by()
     {
         return $this->belongsTo(User::class, 'approved_by', 'id');
+    }
+
+    public function taxonomies()
+    {
+        return $this->belongsToMany(Taxonomy::class, 'products_taxonomies', 'product_id', 'taxonomy_id')->withTimestamps();
+    }
+
+    public function categories()
+    {
+        return $this->taxonomies()->where('type', '=', 'category');
+    }
+
+    public function tags()
+    {
+        return $this->taxonomies()->where('type', '=', 'tag');
     }
 }

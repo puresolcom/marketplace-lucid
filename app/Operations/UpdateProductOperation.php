@@ -24,7 +24,6 @@ class UpdateProductOperation extends Operation
 
     public function handle(Application $app)
     {
-        // begin transaction
         $app->make('db')->beginTransaction();
 
         try {
@@ -36,16 +35,15 @@ class UpdateProductOperation extends Operation
             }
 
             $this->updateProductTranslatable();
+            $this->setProductTaxonomies();
         } catch (\Exception $e) {
-            // rollback
             $app->make('db')->rollback();
             throw $e;
         }
 
-        // commit
         $app->make('db')->commit();
 
-        return $updated->load(['translations', 'store', 'currency', 'approved_by']);
+        return $updated->load(['translations', 'store', 'currency', 'approved_by', 'categories', 'tags']);
     }
 
     protected function updateProduct()
@@ -75,5 +73,10 @@ class UpdateProductOperation extends Operation
                 'input' => $productTranslations,
             ]);
         }
+    }
+
+    protected function setProductTaxonomies()
+    {
+        $this->run(SetProductTaxonomiesOperation::class, ['input' => $this->input, 'model' => $this->model]);
     }
 }

@@ -55,6 +55,6 @@ class CreateTaxonomyOperation extends Operation
 
         $this->app->make('db')->commit();
 
-        return $taxonomyCreated->load(['translations']);
+        return $taxonomyCreated->load(['nameTranslations']);
     }
 }

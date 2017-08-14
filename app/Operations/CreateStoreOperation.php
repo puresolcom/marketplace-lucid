@@ -25,7 +25,7 @@ class CreateStoreOperation extends Operation
         // Exclude unwanted Inputs
         $filteredInputs = $this->run(CreateStoreInputFilterJob::class);
 
-        $filteredInputs['slug'] = $this->run(SlugifyStoreNameJob::class, ['slug' => $filteredInputs['slug']]);
+        $filteredInputs['slug'] = $this->run(SlugifyStoreNameJob::class, ['rawSlug' => $filteredInputs['slug']]);
 
         // Create model
         return $this->run(CreateStoreJob::class, ['input' => $filteredInputs]);

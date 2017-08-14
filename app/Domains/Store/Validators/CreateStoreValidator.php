@@ -13,7 +13,7 @@ class CreateStoreValidator extends Validator
         'street_address_2' => 'string',
         'city_id'          => 'required|exists:locations,id',
         'country_id'       => 'exists:countries,id',
-        'user_id'          => 'exists:users,id',
+        'user_id'          => 'required|exists:users,id',
         'postal_code'      => 'min:5|max:12',
     ];
 }

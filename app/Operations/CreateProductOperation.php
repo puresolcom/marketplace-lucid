@@ -48,6 +48,8 @@ class CreateProductOperation extends Operation
             'store',
             'currency',
             'approved_by',
+            'categories',
+            'tags',
         ])->get();
         // commit
         $app->make('db')->commit();

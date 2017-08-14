@@ -21,6 +21,8 @@ class UpdateProductValidator extends Validator
         'active'         => 'numeric',
         'approved'       => 'numeric',
         'approved_by'    => 'numeric',
+        'category_ids'   => 'array',
+        'tag_ids'        => 'array',
     ];
 
     public function __construct(Validation $validation, Request $request)

@@ -21,7 +21,7 @@ class CreateProductsTranslationsTable extends Migration
             $table->string('locale', 5);
 
             // Indexes
-            $table->index('title');
+            $table->index('key');
             $table->index('locale');
 
             // Foreign Keys

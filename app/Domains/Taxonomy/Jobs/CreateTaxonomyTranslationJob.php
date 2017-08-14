@@ -2,6 +2,7 @@
 
 namespace App\Domains\Taxonomy\Jobs;
 
+use App\Data\Models\TaxonomyTranslation;
 use Awok\Foundation\Job;
 
 class CreateTaxonomyTranslationJob extends Job
@@ -21,7 +22,18 @@ class CreateTaxonomyTranslationJob extends Job
         foreach ($this->translations as $key => $translations) {
 
             foreach ($translations as $translation) {
-                $this->model->translations()->updateOrCreate(['locale' => $translation->getLocale()], [$key => $translation->getValue()]);
+                if (empty($translation->getValue())) {
+                    if ($translation->getLocale() == config('app.base_locale')) {
+                        continue;
+                    }
+                    TaxonomyTranslation::where('translatable_id', '=', $this->model->id)
+                        ->where('locale', '=', $translation->getLocale())->where('key', $key)->delete();
+                } else {
+                    $this->model->translations()->updateOrCreate([
+                        'locale' => $translation->getLocale(),
+                        'key'    => $key,
+                    ], ['value' => $translation->getValue()]);
+                }
             }
         }
 

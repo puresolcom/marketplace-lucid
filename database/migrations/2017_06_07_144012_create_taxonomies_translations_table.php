@@ -16,11 +16,12 @@ class CreateTaxonomiesTranslationsTable extends Migration
         Schema::create('taxonomies_translations', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('translatable_id');
-            $table->string('name', 255);
+            $table->string('key', 64);
+            $table->text('value');
             $table->string('locale', 5);
 
             // Indexes
-            $table->index('name');
+            $table->index('key');
             $table->index('locale');
 
             // Foreign Keys

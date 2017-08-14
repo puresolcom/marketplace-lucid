@@ -61,6 +61,6 @@ class UpdateTaxonomyOperation extends Operation
 
         $this->app->make('db')->commit();
 
-        return $taxonomyUpdated->load(['translations']);
+        return $taxonomyUpdated->load(['nameTranslations']);
     }
 }
